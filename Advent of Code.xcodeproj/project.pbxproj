@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33AF42282D08FBAC00DAFC07 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 33AF42272D08FBAC00DAFC07 /* Algorithms */; };
 		552ED31327514D2F00345439 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552ED31227514D2F00345439 /* main.swift */; };
 		552ED31E275152F200345439 /* aoc-input in CopyFiles */ = {isa = PBXBuildFile; fileRef = 552ED31C27514E9600345439 /* aoc-input */; };
 		5554BC352756CFA50038DAF8 /* RegexHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 5554BC342756CFA50038DAF8 /* RegexHelper */; };
@@ -36,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33AF42282D08FBAC00DAFC07 /* Algorithms in Frameworks */,
 				5554BC352756CFA50038DAF8 /* RegexHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +88,7 @@
 			name = "Advent of Code";
 			packageProductDependencies = (
 				5554BC342756CFA50038DAF8 /* RegexHelper */,
+				33AF42272D08FBAC00DAFC07 /* Algorithms */,
 			);
 			productName = "Advent of Code";
 			productReference = 552ED30F27514D2F00345439 /* Advent of Code */;
@@ -117,6 +120,7 @@
 			mainGroup = 552ED30627514D2F00345439;
 			packageReferences = (
 				5554BC332756CFA50038DAF8 /* XCRemoteSwiftPackageReference "RegexHelper" */,
+				33AF42262D08FBAC00DAFC07 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 552ED31027514D2F00345439 /* Products */;
 			projectDirPath = "";
@@ -296,6 +300,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		33AF42262D08FBAC00DAFC07 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		5554BC332756CFA50038DAF8 /* XCRemoteSwiftPackageReference "RegexHelper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftyaf/RegexHelper";
@@ -307,6 +319,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		33AF42272D08FBAC00DAFC07 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33AF42262D08FBAC00DAFC07 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		5554BC342756CFA50038DAF8 /* RegexHelper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5554BC332756CFA50038DAF8 /* XCRemoteSwiftPackageReference "RegexHelper" */;

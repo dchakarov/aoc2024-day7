@@ -4,7 +4,11 @@
 //
 
 import Foundation
-import RegexHelper
+
+struct Calibration {
+    let leftSide: Int
+    let rightSide: [Int]
+}
 
 func main() {
     let fileUrl = URL(fileURLWithPath: "./aoc-input")
@@ -13,27 +17,80 @@ func main() {
     let lines = inputString.components(separatedBy: "\n")
         .filter { !$0.isEmpty }
     
-    // Sample algorithm
-    var scoreboard = [String: Int]()
+    var calibrations: [Calibration] = []
+    
     lines.forEach { line in
-        let (name, score) = parseLine(line)
-        scoreboard[name] = score
+        let components = line.components(separatedBy: ":")
+        let left = Int(components[0].trimmingCharacters(in: .whitespacesAndNewlines))!
+        let subcomp = components[1].components(separatedBy: " ")
+        let right = subcomp.compactMap { Int($0) }
+        calibrations.append(Calibration(leftSide: left, rightSide: right))
     }
-    scoreboard
-        .sorted { lhs, rhs in
-            lhs.value > rhs.value
-        }
-        .forEach { name, score in
-            print("\(name) \(score) pts")
-        }
+    
+    let result = calibrations.filter { isTrueEquation($0) }.reduce(0) { $0 + $1.leftSide }
+    
+    print(result)
 }
 
-func parseLine(_ line: String) -> (name: String, score: Int) {
-    let helper = RegexHelper(pattern: #"([\-\w]*)\s(\d+)"#)
-    let result = helper.parse(line)
-    let name = result[0]
-    let score = Int(result[1])!
-    return (name: name, score: score)
+func isTrueEquation(_ calibration: Calibration) -> Bool {
+    let operatorCount = calibration.rightSide.count - 1
+    let operators = ["+", "*"]
+    
+    let permutations = permutationsWithRepetition(elements: operators, length: operatorCount)
+    
+    for permutation in permutations {
+        let result = executeAllOperators(numbers: calibration.rightSide, operators: permutation)
+        
+        if result.numbers[0] == calibration.leftSide {
+            return true
+        }
+    }
+
+    return false
+}
+
+func executeAllOperators(numbers: [Int], operators: [String]) -> (numbers: [Int], operators: [String]) {
+    if operators.isEmpty {
+        return (numbers, operators)
+    }
+    
+    var operators = operators
+    var numbers = numbers
+    
+    let op = operators.removeFirst()
+    let first = numbers.removeFirst()
+    let second = numbers.removeFirst()
+    let number = executeOperator(first, second, op)
+    numbers.insert(number, at: 0)
+
+    return executeAllOperators(numbers: numbers, operators: operators)
+}
+
+func executeOperator(_ left: Int, _ right: Int, _ op: String) -> Int {
+    switch op {
+    case "+":
+        return left + right
+    case "*":
+        return left * right
+    default: fatalError()
+    }
+}
+
+func permutationsWithRepetition<T>(elements: [T], length: Int) -> [[T]] {
+    guard length > 0 else {
+        return [[]]
+    }
+    
+    let subPermutations = permutationsWithRepetition(elements: elements, length: length - 1)
+    
+    var result: [[T]] = []
+    for element in elements {
+        for subPermutation in subPermutations {
+            result.append([element] + subPermutation)
+        }
+    }
+    
+    return result
 }
 
 main()
