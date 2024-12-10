@@ -27,14 +27,19 @@ func main() {
         calibrations.append(Calibration(leftSide: left, rightSide: right))
     }
     
-    let result = calibrations.filter { isTrueEquation($0) }.reduce(0) { $0 + $1.leftSide }
+    let operators = ["+", "*"]
+    let result = calibrations.filter { isTrueEquation($0, operators: operators) }.reduce(0) { $0 + $1.leftSide }
     
     print(result)
+    
+    let operators2 = ["+", "*", "||"]
+    let result2 = calibrations.filter { isTrueEquation($0, operators: operators2) }.reduce(0) { $0 + $1.leftSide }
+    
+    print(result2)
 }
 
-func isTrueEquation(_ calibration: Calibration) -> Bool {
+func isTrueEquation(_ calibration: Calibration, operators: [String]) -> Bool {
     let operatorCount = calibration.rightSide.count - 1
-    let operators = ["+", "*"]
     
     let permutations = permutationsWithRepetition(elements: operators, length: operatorCount)
     
@@ -72,6 +77,8 @@ func executeOperator(_ left: Int, _ right: Int, _ op: String) -> Int {
         return left + right
     case "*":
         return left * right
+    case "||":
+        return Int("\(left)\(right)")!
     default: fatalError()
     }
 }
